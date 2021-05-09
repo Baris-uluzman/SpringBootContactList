@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Kuehne+Nagel Technical Task</title>
+
+    <link rel="stylesheet" href="assets/datatable/datatables.css"/>
+    <link rel="stylesheet" href="webjars/bootstrap/4.0.0-2/css/bootstrap.min.css"/>
+
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
+        <a class="navbar-brand" href="/">Kuehne+Nagel - Technical Task - Contact List Application</a>        
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mt-5 mb-5">
+            <table id="example" class="table table-bordered table-responsive" style="width: 100%">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Photo</th>                    
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>Name</th>
+                    <th>Photo</th>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<script src="/webjars/jquery/3.0.0/jquery.min.js"></script>
+<script src="/webjars/popper.js/1.12.9-1/umd/popper.min.js"></script>
+<script src="/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+<script src="assets/datatable/datatables.js"></script>
+
+<script>
+
+    $('#example').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "/peoples",
+            "type": "POST",
+            "dataType": "json",
+            "contentType": "application/json",
+            "data": function (d) {
+                return JSON.stringify(d);
+            }
+        },
+        "columns": [
+            {"data": "name", "width": "20%"},
+            {"data": "url","width": "20%"}
+        ],
+        "columnDefs": [{
+            "targets": 1,
+            "data": 'url',
+            "render": function (data, type, row, meta) {
+            	if(data.indexOf("https") != -1)return '<img src="' + data + '" alt="' + data + 'width="64"/>';
+            	else return 'No Image Url';
+            }
+        }],
+    });
+</script>
+
+</body>
+</html>
